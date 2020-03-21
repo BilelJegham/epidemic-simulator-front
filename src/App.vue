@@ -20,9 +20,11 @@
         </md-list>
       </md-app-drawer>
       
-      <md-app-content>
-        <router-view/>
-      
+      <md-app-content  >
+        <div class="md-layout">
+
+              <div class="md-layout-item md-size-50 md-small-size-100"><router-view/></div>
+        </div>
       </md-app-content>
     </md-app>
   </div>
@@ -35,4 +37,9 @@ export default {
 </script>
 
 <style>
+.md-layout-item{
+  margin: auto;
+}
+
+
 </style>
