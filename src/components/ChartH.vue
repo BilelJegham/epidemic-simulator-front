@@ -16,6 +16,9 @@ export default {
   computed: {
     chartOptions(){
       return {
+          xAxis: {
+            type: 'datetime',
+          },
           series: this.series
         }
         

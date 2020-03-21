@@ -39,7 +39,9 @@ export default {
     ChartH 
   },
   created(){
-      this.getSeries();
+        this.series = [];
+        this.getSeries()
+        this.getSeriesTurfu()
   },
   data(){
       return{
@@ -51,15 +53,43 @@ export default {
   },
   watch:{
     country: function () {
+        this.series = [];
         this.getSeries()
+        this.getSeriesTurfu()
     }
   },
   
   methods:{
+      getSeriesTurfu(){
+        this.axios.get("https://gist.githubusercontent.com/BilelJegham/d33a242a04a22265e1036a907efff6fe/raw/324108e40b92e4e728f32d6f1fc1b7df74f481c6/test").then(res => {
+            console.log(res);
+            if(this.country in res.data){
+                
+                const dataC = res.data[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.cases_sim]
+                });
+                
+                this.series.push({
+                    name: "Cases sim - "+this.country,
+                    data: dataC
+                })
+                
+                
+                const dataR = res.data[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.deaths_sim]
+                });
+                this.series.push({
+                    name: "Deaths sim - "+this.country,
+                    data: dataR
+                })
+                
+            }
+         })
+    },
+
       getSeries(){
         this.axios.get("https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/timeseries.json").then(res => {
             
-        this.series = [];
         if(this.country in res.data){
             
             const dataC = res.data[this.country].map(function(elt){
