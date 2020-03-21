@@ -8,11 +8,16 @@
         
         <md-field>
           <label for="country">Country</label>
-          <md-select v-model="country"  @change="this.getSeries(e)" name="country" id="country">
+          <md-select v-model="country"  name="country" id="country">
             <md-option value="France">France</md-option>
             <md-option value="China">China</md-option>
           </md-select>
         </md-field>
+        
+        <div>
+          <label for="datePicker">Date of simulation</label>
+            <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
+        </div>
         
       </md-card-content>
 
@@ -46,14 +51,16 @@ export default {
   data(){
       return{
         country : 'France',
-        series: [{
-					data: [1, 2, 3]
-				}]
+        series: [],
+        date: new Date(),
+        disabledDates: date => {
+            return (date.getTime() < (new Date(2020,2,21)).getTime()) || (date.getTime() > Date.now())
+        }
       }
   },
   watch:{
     country: function () {
-        this.series = [];
+        this.series = []
         this.getSeries()
         this.getSeriesTurfu()
     }
@@ -61,8 +68,7 @@ export default {
   
   methods:{
       getSeriesTurfu(){
-        this.axios.get("https://gist.githubusercontent.com/BilelJegham/d33a242a04a22265e1036a907efff6fe/raw/324108e40b92e4e728f32d6f1fc1b7df74f481c6/test").then(res => {
-            console.log(res);
+        this.axios.get(`https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/${this.date.getFullYear()}-${this.date.getMonth()+1}-${this.date.getDate()}.json`).then(res => {
             if(this.country in res.data){
                 
                 const dataC = res.data[this.country].map(function(elt){
@@ -72,8 +78,7 @@ export default {
                 this.series.push({
                     name: "Cases sim - "+this.country,
                     data: dataC
-                })
-                
+                })               
                 
                 const dataR = res.data[this.country].map(function(elt){
                     return [Date.parse(elt.date), elt.deaths_sim]
@@ -90,34 +95,33 @@ export default {
       getSeries(){
         this.axios.get("https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/timeseries.json").then(res => {
             
-        if(this.country in res.data){
-            
-            const dataC = res.data[this.country].map(function(elt){
-                return [Date.parse(elt.date), elt.confirmed]
-            });
-            
-            this.series.push({
-                name: "confirmed - "+this.country,
-                data: dataC
-            })
-            
-            const dataD = res.data[this.country].map(function(elt){
-                return [Date.parse(elt.date), elt.deaths]
-            });
-            
-            this.series.push({
-                name: "deaths - "+this.country,
-                data: dataD
-            })
-            const dataR = res.data[this.country].map(function(elt){
-                return [Date.parse(elt.date), elt.recovered]
-            });
-            this.series.push({
-                name: "recovered - "+this.country,
-                data: dataR
-            })
-            
-        }
+            if(this.country in res.data){
+                const dataC = res.data[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.confirmed]
+                });
+                
+                this.series.push({
+                    name: "confirmed - "+this.country,
+                    data: dataC
+                })
+                
+                const dataD = res.data[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.deaths]
+                });
+                
+                this.series.push({
+                    name: "deaths - "+this.country,
+                    data: dataD
+                })
+                const dataR = res.data[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.recovered]
+                });
+                this.series.push({
+                    name: "recovered - "+this.country,
+                    data: dataR
+                })
+                
+            }
         })
       }
   }

@@ -1,12 +1,12 @@
 <template>
     <div>
-        <highcharts :options="chartOptions"></highcharts>
+      <highcharts constructor-type="chart" :options="chartOptions"></highcharts>
+      
     </div>
 </template>
 
 <script>
 import {Chart} from 'highcharts-vue'
-
 export default {
   name: 'ChartH',
   props: ["series"],
@@ -19,6 +19,9 @@ export default {
           xAxis: {
             type: 'datetime',
           },
+          chart:{
+            height:500,
+          },
           series: this.series
         }
         
@@ -29,4 +32,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 </style>

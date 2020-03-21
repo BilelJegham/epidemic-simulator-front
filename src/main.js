@@ -8,10 +8,12 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default-dark.css' 
 import AccueilPage from './views/AccueilPage.vue'
 import Router from 'vue-router'
+import stockInit from 'highcharts/modules/stock'
 
 import Highcharts from "highcharts";
 import darkUnica from "highcharts/themes/dark-unica";
 
+stockInit(Highcharts)
 darkUnica(Highcharts);
 Vue.config.productionTip = false
 Vue.use(HighchartsVue)
