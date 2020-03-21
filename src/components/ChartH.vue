@@ -9,16 +9,16 @@ import {Chart} from 'highcharts-vue'
 
 export default {
   name: 'ChartH',
+  props: ["series"],
   components: {
     highcharts: Chart 
   },
-  data() {
-    return {
-      chartOptions: {
-        series: [{
-          data: [1,2,3] // sample data
-        }]
-      }
+  computed: {
+    chartOptions(){
+      return {
+          series: this.series
+        }
+        
     }
   }
 }
