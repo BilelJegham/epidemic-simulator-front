@@ -1,6 +1,6 @@
 <template>
     <div>
-      <highcharts constructor-type="chart" :options="chartOptions"></highcharts>
+      <highcharts constructor-type="stockChart" :options="chartOptions"></highcharts>
       
     </div>
 </template>
