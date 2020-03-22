@@ -27,7 +27,10 @@ export default {
           },
           title: null,
           chart:{
-            height:500,
+            height:550,
+          },
+          tooltip:{
+            valueDecimals: 0
           },
           series: this.series
         }
