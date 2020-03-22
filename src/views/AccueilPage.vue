@@ -87,7 +87,7 @@ export default {
                 })
                 
             }
-       if(this.dataTurfu && this.country in this.data){
+       if(this.data && this.country in this.data){
                 const dataC = this.data[this.country].map(function(elt){
                     return [Date.parse(elt.date), elt.confirmed]
                 });
