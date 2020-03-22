@@ -66,7 +66,7 @@ export default {
   },
   computed:{
     countries(){
-      if(!this.data)
+      if(!this.dataTurfu)
         return []
       
       return Object.keys(this.dataTurfu)
@@ -100,7 +100,11 @@ export default {
                 
                 sAll.push({
                     name: "confirmed - "+this.country,
-                    data: dataC
+                    data: dataC,
+                    marker: {
+                        enabled: true,
+                        radius: 4
+                    },
                 })
                 
                 const dataD = this.data[this.country].map(function(elt){
@@ -109,14 +113,22 @@ export default {
                 
                 sAll.push({
                     name: "deaths - "+this.country,
-                    data: dataD
+                    data: dataD,
+                    marker: {
+                        enabled: true,
+                        radius: 4
+                    },
                 })
                 const dataR = this.data[this.country].map(function(elt){
                     return [Date.parse(elt.date), elt.recovered]
                 });
                 sAll.push({
                     name: "recovered - "+this.country,
-                    data: dataR
+                    data: dataR,
+                    marker: {
+                        enabled: true,
+                        radius: 4
+                    },
                 })
                    const dataA= this.data[this.country].map(function(elt){
                     return [Date.parse(elt.date), elt.confirmed-elt.recovered-elt.deaths]

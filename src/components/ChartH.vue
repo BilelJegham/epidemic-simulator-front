@@ -1,6 +1,6 @@
 <template>
     <div>
-      <highcharts constructor-type="chart" :options="chartOptions"></highcharts>
+      <highcharts constructor-type="stockChart" :options="chartOptions"></highcharts>
       
     </div>
 </template>
@@ -16,6 +16,9 @@ export default {
   computed: {
     chartOptions(){
       return {
+        legend:{
+          enabled: true,
+        },
           xAxis: {
             label: {
               enabled: false
@@ -24,7 +27,10 @@ export default {
           },
           title: null,
           chart:{
-            height:500,
+            height:550,
+          },
+          tooltip:{
+            valueDecimals: 0
           },
           series: this.series
         }
