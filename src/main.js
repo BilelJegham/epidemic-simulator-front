@@ -36,6 +36,11 @@ const router = new Router({
       component: AccueilPage,
     },
     {
+      path: '/c/:country',
+      name: 'Home',
+      component: AccueilPage,
+    },
+    {
       path: '/about',
       name: 'About',
       component: AboutPage,

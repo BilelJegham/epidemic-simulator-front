@@ -43,8 +43,10 @@ export default {
     ChartH,
   },
   created(){
-        this.getSeries()
-        this.getSeriesTurfu()
+    this.getSeries()
+    this.getSeriesTurfu()
+    if(this.$route.params && this.$route.params.country)
+      this.country = this.$route.params.country
   },
   data(){
       return{
