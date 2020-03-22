@@ -3,22 +3,19 @@
     <md-app md-mode="reveal">
       
       <md-app-toolbar class="md-primary">
-        <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
-          <md-icon>menu</md-icon>
-        </md-button>
+        
+        <div class="md-toolbar-row">
+          <div class="md-toolbar-section-start">
         <span class="md-title">{{this.$route.name}}</span>
+          </div></div>
+            <div class="md-toolbar-row">
+          <md-tabs class="md-primary" md-sync-route>
+            <md-tab id="tab-home" md-label="Home" to="/" exact></md-tab>
+            <md-tab id="tab-about" md-label="About" to="/about" ></md-tab>
+            <md-tab id="tab-contribute" md-label="Contribute" to="/contribute" ></md-tab>
+          </md-tabs>
+        </div>
       </md-app-toolbar>
-        <md-app-drawer :md-active.sync="menuVisible">
-        <md-toolbar class="md-transparent" md-elevation="0">Navigation</md-toolbar>
-
-        <md-list>
-          <md-list-item>
-            <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text">Inbox</span>
-          </md-list-item>
-
-        </md-list>
-      </md-app-drawer>
       
       <md-app-content  >
         <div class="md-layout">
@@ -27,6 +24,10 @@
         </div>
       </md-app-content>
     </md-app>
+    <footer>
+        <p>Made with ♥ by <a href="https://github.com/RemiTheWarrior">Rémi Delaporte-Mathurin</a>, <a href="https://github.com/Lili-Gigi">Lilian Gilier</a> and <a href="https://github.com/BilelJegham">Bilel Jegham</a></p>
+    </footer>
+    
   </div>
 </template>
 
@@ -40,6 +41,13 @@ export default {
 .md-layout-item{
   margin: auto;
 }
+#app .md-card-header {
+  background: #448aff;
+  margin-bottom: 18px;
+}
 
+#app .md-card {
+  background: #474747;
+}
 
 </style>

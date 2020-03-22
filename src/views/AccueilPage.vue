@@ -27,7 +27,7 @@
         <div class="md-title">{{this.country}}</div>
       </md-card-header>
       <md-card-content>
-        <ChartH :series="this.series"/>
+        <ChartH :series="this.seriesAll"/>
         
       </md-card-content>
 
@@ -41,7 +41,7 @@ import ChartH from '../components/ChartH.vue'
 export default {
   name: 'AccueilPage',
   components: {
-    ChartH 
+    ChartH,
   },
   created(){
         this.series = [];
@@ -51,7 +51,8 @@ export default {
   data(){
       return{
         country : 'France',
-        series: [],
+        data: undefined,
+        dataTurfu: undefined,
         date: new Date(),
         disabledDates: date => {
             return (date.getTime() < (new Date(2020,2,21)).getTime()) || (date.getTime() > Date.now())
@@ -59,70 +60,82 @@ export default {
       }
   },
   watch:{
-    country: function () {
-        this.series = []
-        this.getSeries()
-        this.getSeriesTurfu()
+    date: function () {
+        this.getSeriesTurfu();
+    }
+  },
+  computed:{
+    seriesAll(){
+      let sAll = [];
+      if(this.dataTurfu && this.country in this.dataTurfu){
+                
+                const dataC = this.dataTurfu[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.cases_sim]
+                });
+                
+                sAll.push({
+                    name: "Cases sim - "+this.country,
+                    data: dataC
+                })               
+                
+                const dataR = this.dataTurfu[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.deaths_sim]
+                });
+                sAll.push({
+                    name: "Deaths sim - "+this.country,
+                    data: dataR
+                })
+                
+            }
+       if(this.dataTurfu && this.country in this.data){
+                const dataC = this.data[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.confirmed]
+                });
+                
+                sAll.push({
+                    name: "confirmed - "+this.country,
+                    data: dataC
+                })
+                
+                const dataD = this.data[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.deaths]
+                });
+                
+                sAll.push({
+                    name: "deaths - "+this.country,
+                    data: dataD
+                })
+                const dataR = this.data[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.recovered]
+                });
+                sAll.push({
+                    name: "recovered - "+this.country,
+                    data: dataR
+                })
+                
+            }
+      return sAll
     }
   },
   
   methods:{
       getSeriesTurfu(){
         this.axios.get(`https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/${this.date.getFullYear()}-${this.date.getMonth()+1}-${this.date.getDate()}.json`).then(res => {
-            if(this.country in res.data){
-                
-                const dataC = res.data[this.country].map(function(elt){
-                    return [Date.parse(elt.date), elt.cases_sim]
-                });
-                
-                this.series.push({
-                    name: "Cases sim - "+this.country,
-                    data: dataC
-                })               
-                
-                const dataR = res.data[this.country].map(function(elt){
-                    return [Date.parse(elt.date), elt.deaths_sim]
-                });
-                this.series.push({
-                    name: "Deaths sim - "+this.country,
-                    data: dataR
-                })
-                
-            }
-         })
+            this.dataTurfu = res.data;
+            
+         }).catch(() => {
+            this.dataTurfu = {}
+         });
     },
 
       getSeries(){
-        this.axios.get("https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/timeseries.json").then(res => {
-            
-            if(this.country in res.data){
-                const dataC = res.data[this.country].map(function(elt){
-                    return [Date.parse(elt.date), elt.confirmed]
-                });
-                
-                this.series.push({
-                    name: "confirmed - "+this.country,
-                    data: dataC
-                })
-                
-                const dataD = res.data[this.country].map(function(elt){
-                    return [Date.parse(elt.date), elt.deaths]
-                });
-                
-                this.series.push({
-                    name: "deaths - "+this.country,
-                    data: dataD
-                })
-                const dataR = res.data[this.country].map(function(elt){
-                    return [Date.parse(elt.date), elt.recovered]
-                });
-                this.series.push({
-                    name: "recovered - "+this.country,
-                    data: dataR
-                })
-                
-            }
-        })
+        if(!this.data ){
+          this.axios.get("https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/timeseries.json").then(res => {
+              this.data = res.data;
+          })
+        }
+          
+        
       }
   }
 }
