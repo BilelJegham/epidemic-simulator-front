@@ -17,7 +17,7 @@
       </md-card-content>
 
   </md-card>
-    <md-card v-if="this.country">
+    <md-card v-if="this.countries.indexOf(this.country) !== -1">
       <md-card-header>
         <div class="md-title">{{this.country}}</div>
       </md-card-header>
