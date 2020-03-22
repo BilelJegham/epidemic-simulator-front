@@ -135,7 +135,11 @@ export default {
                 });
                 sAll.push({
                     name: "active - "+this.country,
-                    data: dataA
+                    data: dataA,
+                    marker: {
+                        enabled: true,
+                        radius: 4
+                    },
                 })
             }
       return sAll
