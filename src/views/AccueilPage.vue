@@ -118,7 +118,13 @@ export default {
                     name: "recovered - "+this.country,
                     data: dataR
                 })
-                
+                   const dataA= this.data[this.country].map(function(elt){
+                    return [Date.parse(elt.date), elt.confirmed-elt.recovered-elt.deaths]
+                });
+                sAll.push({
+                    name: "active - "+this.country,
+                    data: dataA
+                })
             }
       return sAll
     }
