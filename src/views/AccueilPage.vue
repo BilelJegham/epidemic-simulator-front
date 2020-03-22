@@ -66,7 +66,7 @@ export default {
   },
   computed:{
     countries(){
-      if(!this.data)
+      if(!this.dataTurfu)
         return []
       
       return Object.keys(this.dataTurfu)

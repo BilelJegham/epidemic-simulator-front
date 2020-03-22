@@ -16,6 +16,9 @@ export default {
   computed: {
     chartOptions(){
       return {
+        legend:{
+          enabled: true,
+        },
           xAxis: {
             label: {
               enabled: false
