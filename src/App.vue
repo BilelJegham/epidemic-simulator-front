@@ -49,5 +49,9 @@ export default {
 #app .md-card {
   background: #474747;
 }
+footer{
+  padding: 0.5%;
+  text-align: center;
+}
 
 </style>

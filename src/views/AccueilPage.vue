@@ -6,18 +6,13 @@
       </md-card-header>
       <md-card-content>
         
-        <md-field>
-          <label for="country">Country</label>
-          <md-select v-model="country"  name="country" id="country">
-            <md-option value="France">France</md-option>
-            <md-option value="China">China</md-option>
-          </md-select>
-        </md-field>
+          <md-autocomplete v-model="country" id="country" :md-options="this.countries">
+            <label>Country</label>
+          </md-autocomplete>
         
-        <div>
           <label for="datePicker">Date of simulation</label>
             <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
-        </div>
+
         
       </md-card-content>
 
@@ -37,6 +32,10 @@
 
 <script>
 import ChartH from '../components/ChartH.vue'
+const today = new Date()
+const yesterday = new Date(today)
+
+yesterday.setDate(yesterday.getDate() - 1)
 
 export default {
   name: 'AccueilPage',
@@ -44,18 +43,17 @@ export default {
     ChartH,
   },
   created(){
-        this.series = [];
         this.getSeries()
         this.getSeriesTurfu()
   },
   data(){
       return{
-        country : 'France',
+        country : '',
         data: undefined,
         dataTurfu: undefined,
-        date: new Date(),
+        date: yesterday,
         disabledDates: date => {
-            return (date.getTime() < (new Date(2020,2,21)).getTime()) || (date.getTime() > Date.now())
+            return (date.getTime() < (new Date(2020,2,21)).getTime()) || (date.getTime() > yesterday.getTime())
         }
       }
   },
@@ -65,6 +63,12 @@ export default {
     }
   },
   computed:{
+    countries(){
+      if(!this.data)
+        return []
+      
+      return Object.keys(this.dataTurfu)
+    },
     seriesAll(){
       let sAll = [];
       if(this.dataTurfu && this.country in this.dataTurfu){
@@ -130,7 +134,7 @@ export default {
 
       getSeries(){
         if(!this.data ){
-          this.axios.get("https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/timeseries.json").then(res => {
+          this.axios.get("https://pomber.github.io/covid19/timeseries.json").then(res => {
               this.data = res.data;
           })
         }

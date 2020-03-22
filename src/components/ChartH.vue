@@ -17,8 +17,12 @@ export default {
     chartOptions(){
       return {
           xAxis: {
+            label: {
+              enabled: false
+            },
             type: 'datetime',
           },
+          title: null,
           chart:{
             height:500,
           },
