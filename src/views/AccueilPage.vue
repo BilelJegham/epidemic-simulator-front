@@ -80,7 +80,7 @@ export default {
                 });
                 
                 sAll.push({
-                    name: "Cases sim - "+this.country,
+                    name: "infected - simulation",//+this.country,
                     data: dataC
                 })               
                 
@@ -88,7 +88,7 @@ export default {
                     return [Date.parse(elt.date), elt.deaths_sim]
                 });
                 sAll.push({
-                    name: "Deaths sim - "+this.country,
+                    name: "deaths - simulation",//+this.country,
                     data: dataR
                 })
                 
@@ -99,8 +99,9 @@ export default {
                 });
                 
                 sAll.push({
-                    name: "confirmed - "+this.country,
+                    name: "confirmed",//+this.country,
                     data: dataC,
+                    visible: false,
                     marker: {
                         enabled: true,
                         radius: 4
@@ -112,7 +113,7 @@ export default {
                 });
                 
                 sAll.push({
-                    name: "deaths - "+this.country,
+                    name: "deaths",//+this.country,
                     data: dataD,
                     marker: {
                         enabled: true,
@@ -123,8 +124,9 @@ export default {
                     return [Date.parse(elt.date), elt.recovered]
                 });
                 sAll.push({
-                    name: "recovered - "+this.country,
+                    name: "recovered",//+this.country,
                     data: dataR,
+                    visible: false,
                     marker: {
                         enabled: true,
                         radius: 4
@@ -134,7 +136,7 @@ export default {
                     return [Date.parse(elt.date), elt.confirmed-elt.recovered-elt.deaths]
                 });
                 sAll.push({
-                    name: "active - "+this.country,
+                    name: "infected",//+this.country,
                     data: dataA,
                     marker: {
                         enabled: true,
