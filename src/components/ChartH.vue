@@ -1,8 +1,7 @@
 <template>
-    <div>
-      <highcharts constructor-type="stockChart" :options="chartOptions"></highcharts>
-      
-    </div>
+  <div v-if="this.series && this.series.length !== 0">
+    <highcharts constructor-type="stockChart" :options="chartOptions"></highcharts>
+  </div>
 </template>
 
 <script>
@@ -12,6 +11,9 @@ export default {
   props: ["series"],
   components: {
     highcharts: Chart 
+  },
+  created(){
+    console.log(this.chartOptions);
   },
   computed: {
     chartOptions(){
