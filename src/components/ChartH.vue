@@ -19,6 +19,9 @@ export default {
         legend:{
           enabled: true,
         },
+        time:{
+          useUTC: false,
+        },
           xAxis: {
             label: {
               enabled: false

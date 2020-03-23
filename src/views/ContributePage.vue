@@ -19,7 +19,7 @@
       <md-card-header >
         <md-card-header-text>
           <div class="md-title">BilelJegham/epidemic-simulator-front</div>
-          <div class="md-subhead">VueJS </div>
+          <div class="md-subhead">VueJS</div>
         </md-card-header-text>
         <md-card-media><i class="fab fa-github"></i>
         </md-card-media>
