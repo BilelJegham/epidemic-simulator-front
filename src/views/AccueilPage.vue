@@ -44,7 +44,6 @@ export default {
   },
   created(){
     this.getSeries()
-    this.getSeriesTurfu()
     if(this.$route.params && this.$route.params.country)
       this.country = this.$route.params.country
   },
@@ -151,7 +150,8 @@ export default {
         this.axios.get(`https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/${this.date.getFullYear()}-${this.date.getMonth()+1}-${this.date.getDate()}.json`).then(res => {
             this.dataTurfu = res.data;
             
-         }).catch(() => {
+         }).catch((e) => {
+           console.error(e);
             this.dataTurfu = {}
          });
     },
