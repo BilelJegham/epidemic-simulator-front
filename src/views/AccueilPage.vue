@@ -101,8 +101,9 @@ export default {
                 sAll.push({
                     name: "confirmed",//+this.country,
                     data: dataC,
+                    visible: false,
                     marker: {
-                        enabled: false,
+                        enabled: true,
                         radius: 4
                     },
                 })
@@ -125,8 +126,9 @@ export default {
                 sAll.push({
                     name: "recovered",//+this.country,
                     data: dataR,
+                    visible: false,
                     marker: {
-                        enabled: false,
+                        enabled: true,
                         radius: 4
                     },
                 })
