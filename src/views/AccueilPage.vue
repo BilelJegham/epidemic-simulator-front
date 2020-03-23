@@ -75,7 +75,7 @@ export default {
       if(this.dataTurfu && this.country in this.dataTurfu){
                 
                 const dataC = this.dataTurfu[this.country].map(function(elt){
-                    return [Date.parse(elt.date), elt.cases_sim]
+                    return [Date.parse(elt.date.replace(',', '')), elt.cases_sim]
                 });
                 
                 sAll.push({
@@ -84,7 +84,7 @@ export default {
                 })               
                 
                 const dataR = this.dataTurfu[this.country].map(function(elt){
-                    return [Date.parse(elt.date), elt.deaths_sim]
+                    return [Date.parse(elt.date.replace(',', '')), elt.deaths_sim]
                 });
                 sAll.push({
                     name: "Deaths sim - "+this.country,
