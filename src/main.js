@@ -32,12 +32,12 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
+      name: 'Simulator',
       component: AccueilPage,
     },
     {
       path: '/c/:country',
-      name: 'Home',
+      name: 'Simulator',
       component: AccueilPage,
     },
     {

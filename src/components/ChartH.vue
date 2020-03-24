@@ -1,8 +1,7 @@
 <template>
-    <div>
-      <highcharts constructor-type="stockChart" :options="chartOptions"></highcharts>
-      
-    </div>
+  <div v-if="this.series && this.series.length !== 0">
+    <highcharts constructor-type="stockChart" :options="chartOptions"></highcharts>
+  </div>
 </template>
 
 <script>
@@ -13,11 +12,17 @@ export default {
   components: {
     highcharts: Chart 
   },
+  created(){
+    console.log(this.chartOptions);
+  },
   computed: {
     chartOptions(){
       return {
         legend:{
           enabled: true,
+        },
+        time:{
+          useUTC: false,
         },
           xAxis: {
             label: {

@@ -10,7 +10,7 @@
           </div></div>
             <div class="md-toolbar-row">
           <md-tabs class="md-primary" md-sync-route>
-            <md-tab id="tab-home" md-label="Home" to="/" exact></md-tab>
+            <md-tab id="tab-home" md-label="Simulator" to="/" exact></md-tab>
             <md-tab id="tab-about" md-label="About" to="/about" ></md-tab>
             <md-tab id="tab-contribute" md-label="Contribute" to="/contribute" ></md-tab>
           </md-tabs>
@@ -25,7 +25,7 @@
       </md-app-content>
     </md-app>
     <footer>
-        <p>Made with ♥ by <a href="https://github.com/RemiTheWarrior">Rémi Delaporte-Mathurin</a>, <a href="https://github.com/Lili-Gigi">Lilian Gilier</a> and <a href="https://github.com/BilelJegham">Bilel Jegham</a></p>
+        <p>Made by <a href="https://github.com/RemiTheWarrior">Rémi Delaporte-Mathurin</a>, <a href="https://github.com/Lili-Gigi">Lilian Gilier</a> and <a href="https://github.com/BilelJegham">Bilel Jegham</a></p>
     </footer>
     
   </div>

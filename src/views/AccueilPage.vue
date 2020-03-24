@@ -33,9 +33,11 @@
 <script>
 import ChartH from '../components/ChartH.vue'
 const today = new Date()
-const yesterday = new Date(today)
-
+const yesterday = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), today.getUTCHours(), today.getMinutes())
 yesterday.setDate(yesterday.getDate() - 1)
+if( (yesterday.getUTCHours() == 5 && yesterday.getUTCMinutes() < 20) || yesterday.getUTCHours() < 5){
+  yesterday.setDate(yesterday.getDate() - 1)
+}
 
 export default {
   name: 'AccueilPage',
@@ -44,7 +46,6 @@ export default {
   },
   created(){
     this.getSeries()
-    this.getSeriesTurfu()
     if(this.$route.params && this.$route.params.country)
       this.country = this.$route.params.country
   },
@@ -69,26 +70,26 @@ export default {
       if(!this.dataTurfu)
         return []
       
-      return Object.keys(this.dataTurfu)
+      return Object.keys(this.dataTurfu).sort();
     },
     seriesAll(){
       let sAll = [];
       if(this.dataTurfu && this.country in this.dataTurfu){
                 
                 const dataC = this.dataTurfu[this.country].map(function(elt){
-                    return [Date.parse(elt.date), elt.cases_sim]
+                    return [Date.parse(elt.date.replace(',', '')), elt.cases_sim]
                 });
                 
                 sAll.push({
-                    name: "infected - simulation",//+this.country,
+                    name: "Cases sim - "+this.country,
                     data: dataC
                 })               
                 
                 const dataR = this.dataTurfu[this.country].map(function(elt){
-                    return [Date.parse(elt.date), elt.deaths_sim]
+                    return [Date.parse(elt.date.replace(',', '')), elt.deaths_sim]
                 });
                 sAll.push({
-                    name: "deaths - simulation",//+this.country,
+                    name: "Deaths sim - "+this.country,
                     data: dataR
                 })
                 
@@ -99,9 +100,8 @@ export default {
                 });
                 
                 sAll.push({
-                    name: "confirmed",//+this.country,
+                    name: "confirmed - "+this.country,
                     data: dataC,
-                    visible: false,
                     marker: {
                         enabled: true,
                         radius: 4
@@ -113,7 +113,7 @@ export default {
                 });
                 
                 sAll.push({
-                    name: "deaths",//+this.country,
+                    name: "deaths - "+this.country,
                     data: dataD,
                     marker: {
                         enabled: true,
@@ -124,9 +124,8 @@ export default {
                     return [Date.parse(elt.date), elt.recovered]
                 });
                 sAll.push({
-                    name: "recovered",//+this.country,
+                    name: "recovered - "+this.country,
                     data: dataR,
-                    visible: false,
                     marker: {
                         enabled: true,
                         radius: 4
@@ -136,7 +135,7 @@ export default {
                     return [Date.parse(elt.date), elt.confirmed-elt.recovered-elt.deaths]
                 });
                 sAll.push({
-                    name: "infected",//+this.country,
+                    name: "active - "+this.country,
                     data: dataA,
                     marker: {
                         enabled: true,
@@ -153,7 +152,8 @@ export default {
         this.axios.get(`https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/${this.date.getFullYear()}-${this.date.getMonth()+1}-${this.date.getDate()}.json`).then(res => {
             this.dataTurfu = res.data;
             
-         }).catch(() => {
+         }).catch((e) => {
+           console.error(e);
             this.dataTurfu = {}
          });
     },
