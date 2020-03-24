@@ -1,4 +1,9 @@
-# epidemic-simulator-front
+# Epidemic Simulator (front)
+
+> VueJS, PWA, Higcharts
+
+Repo (back) : https://github.com/RemiTheWarrior/epidemic-simulator
+
 
 ## Project setup
 ```
