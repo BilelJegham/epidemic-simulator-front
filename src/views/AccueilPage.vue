@@ -6,12 +6,13 @@
       </md-card-header>
       <md-card-content>
         
+          <label for="datePicker">Date of simulation</label>
+            <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
+            
           <md-autocomplete v-model="country" id="country" :md-options="this.countries">
             <label>Country</label>
           </md-autocomplete>
         
-          <label for="datePicker">Date of simulation</label>
-            <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
 
         
       </md-card-content>
