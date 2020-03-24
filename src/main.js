@@ -38,7 +38,7 @@ const router = new Router({
     },
     {
       path: '/c/:country',
-      name: 'Simulator',
+      name: 'Simulator Country',
       component: AccueilPage,
     },
     {
