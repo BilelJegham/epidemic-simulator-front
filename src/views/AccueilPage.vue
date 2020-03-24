@@ -8,12 +8,11 @@
            
           <label for="datePicker">Date of simulation</label>
             <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
-             <md-field v-bind:class="{ 'md-invalid': !this.isValidCountry }">
-              <md-autocomplete v-model="country" id="country" :md-options="this.countries">
-                <label>Country</label>
+              <md-autocomplete v-model="country" id="country" :md-options="this.countries" v-bind:class="{ 'md-invalid': (this.countries.length > 0 && this.countries.indexOf(this.country) !== -1) }">
+                <label>Country</label> 
+                <span class="md-error">There is no simulation of {{this.country}} on {{this.date.getFullYear()}}-{{this.date.getMonth()+1}}-{{this.date.getDate()}}</span>
+           
               </md-autocomplete>
-              <span class="md-error">There is no simulation of {this.country} on ${this.date.getFullYear()}-${this.date.getMonth()+1}-${this.date.getDate()}</span>
-            </md-field>
         
 
         
@@ -74,9 +73,6 @@ export default {
         return []
       
       return Object.keys(this.dataTurfu).sort();
-    },
-    isValidCountry(){
-        return this.countries.indexOf(this.country) !== -1
     },
     seriesAll(){
       let sAll = [];
