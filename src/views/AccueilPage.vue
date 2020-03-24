@@ -25,7 +25,7 @@
       </md-card-header>
       <md-card-content>
         <ChartH :series="this.seriesAll"/>
-        
+        <p><small>Timezone : UTC+1</small></p>
       </md-card-content>
 
   </md-card>

@@ -12,17 +12,11 @@ export default {
   components: {
     highcharts: Chart 
   },
-  created(){
-    console.log(this.chartOptions);
-  },
   computed: {
     chartOptions(){
       return {
         legend:{
           enabled: true,
-        },
-        time:{
-          useUTC: false,
         },
           xAxis: {
             label: {

@@ -25,7 +25,8 @@
       </md-app-content>
     </md-app>
     <footer>
-        <p>Made by <a href="https://github.com/RemiTheWarrior">Rémi Delaporte-Mathurin</a>, <a href="https://github.com/Lili-Gigi">Lilian Gilier</a> and <a href="https://github.com/BilelJegham">Bilel Jegham</a></p>
+        <p>Made by <a href="https://github.com/RemiTheWarrior">Rémi Delaporte-Mathurin</a>, <a href="https://github.com/Lili-Gigi">Lilian Gilier</a> and <a href="https://github.com/BilelJegham">Bilel Jegham</a><br/>
+        under <a href="https://raw.githubusercontent.com/BilelJegham/epidemic-simulator-front/master/LICENSE">MIT license</a></p>
     </footer>
     
   </div>
