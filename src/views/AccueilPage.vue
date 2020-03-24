@@ -56,7 +56,7 @@ export default {
         dataTurfu: undefined,
         date: yesterday,
         disabledDates: date => {
-            return (date.getTime() < (new Date(2020,2,21)).getTime()) || (date.getTime() > yesterday.getTime())
+            return (date.getTime() < (new Date(2020,2,10)).getTime()) || (date.getTime() > yesterday.getTime())
         }
       }
   },
