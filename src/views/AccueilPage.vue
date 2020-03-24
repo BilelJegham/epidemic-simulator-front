@@ -5,13 +5,14 @@
         <div class="md-title">Select the country</div>
       </md-card-header>
       <md-card-content>
-        
+           
           <label for="datePicker">Date of simulation</label>
             <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
-            
-          <md-autocomplete v-model="country" id="country" :md-options="this.countries">
-            <label>Country</label>
-          </md-autocomplete>
+              <md-autocomplete v-model="country" id="country" :md-options="this.countries" v-bind:class="{ 'md-invalid': (this.country && this.country.length > 0 && this.countries.indexOf(this.country) === -1) }">
+                <label>Country</label> 
+                <span class="md-error">There is no simulation of '{{this.country}}' on {{this.date.getFullYear()}}-{{this.date.getMonth()+1}}-{{this.date.getDate()}}</span>
+           
+              </md-autocomplete>
         
 
         
@@ -58,7 +59,7 @@ export default {
         date: yesterday,
         disabledDates: date => {
             return (date.getTime() < (new Date(2020,2,10)).getTime()) || (date.getTime() > yesterday.getTime())
-        }
+        },
       }
   },
   watch:{
