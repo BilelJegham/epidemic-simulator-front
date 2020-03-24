@@ -25,7 +25,7 @@
       </md-card-header>
       <md-card-content>
         <ChartH :series="this.seriesAll"/>
-        
+        <p><small>Timezone : UTC+1</small></p>
       </md-card-content>
 
   </md-card>
@@ -35,7 +35,8 @@
 <script>
 import ChartH from '../components/ChartH.vue'
 const today = new Date()
-const yesterday = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), today.getUTCHours(), today.getMinutes())
+
+const yesterday = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), today.getUTCHours()+1, today.getMinutes()))
 yesterday.setDate(yesterday.getDate() - 1)
 if( (yesterday.getUTCHours() == 5 && yesterday.getUTCMinutes() < 20) || yesterday.getUTCHours() < 5){
   yesterday.setDate(yesterday.getDate() - 1)
