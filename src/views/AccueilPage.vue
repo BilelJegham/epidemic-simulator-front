@@ -5,13 +5,15 @@
         <div class="md-title">Select the country</div>
       </md-card-header>
       <md-card-content>
-        
+           
           <label for="datePicker">Date of simulation</label>
             <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
-            
-          <md-autocomplete v-model="country" id="country" :md-options="this.countries">
-            <label>Country</label>
-          </md-autocomplete>
+             <md-field v-bind:class="{ 'md-invalid': !this.isValidCountry }">
+              <md-autocomplete v-model="country" id="country" :md-options="this.countries">
+                <label>Country</label>
+              </md-autocomplete>
+              <span class="md-error">There is no simulation of {this.country} on ${this.date.getFullYear()}-${this.date.getMonth()+1}-${this.date.getDate()}</span>
+            </md-field>
         
 
         
@@ -58,7 +60,7 @@ export default {
         date: yesterday,
         disabledDates: date => {
             return (date.getTime() < (new Date(2020,2,10)).getTime()) || (date.getTime() > yesterday.getTime())
-        }
+        },
       }
   },
   watch:{
@@ -72,6 +74,9 @@ export default {
         return []
       
       return Object.keys(this.dataTurfu).sort();
+    },
+    isValidCountry(){
+        return this.countries.indexOf(this.country) !== -1
     },
     seriesAll(){
       let sAll = [];
