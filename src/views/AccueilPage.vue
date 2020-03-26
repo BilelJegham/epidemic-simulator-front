@@ -34,13 +34,6 @@
 
 <script>
 import ChartH from '../components/ChartH.vue'
-const today = new Date()
-
-const yesterday = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), today.getUTCHours()+1, today.getMinutes()))
-yesterday.setDate(yesterday.getDate() - 1)
-if( (yesterday.getUTCHours() == 5 && yesterday.getUTCMinutes() < 20) || yesterday.getUTCHours() < 5){
-  yesterday.setDate(yesterday.getDate() - 1)
-}
 
 export default {
   name: 'AccueilPage',
@@ -48,6 +41,7 @@ export default {
     ChartH,
   },
   created(){
+    this.getDateSimulation()
     this.getSeries()
     if(this.$route.params && this.$route.params.country)
       this.country = this.$route.params.country
@@ -55,11 +49,12 @@ export default {
   data(){
       return{
         country : '',
+        datesSimulation : [],
         data: undefined,
         dataTurfu: undefined,
-        date: yesterday,
+        date: new Date(),
         disabledDates: date => {
-            return (date.getTime() < (new Date(2020,2,10)).getTime()) || (date.getTime() > yesterday.getTime())
+            return (this.datesSimulation.indexOf(date.getTime()) === -1)
         },
       }
   },
@@ -169,6 +164,21 @@ export default {
               this.data = res.data;
           })
         }
+          
+        
+      },
+      getDateSimulation(){
+          this.axios.get("https://api.github.com/repos/RemiTheWarrior/epidemic-simulator/contents/data").then(res => {
+              this.datesSimulation = res.data.filter((e) => {
+                  if(e.type == "dir" || e.name == "timeseries.json")
+                    return false; 
+                  else
+                    return true;
+                }).map((e)=> new Date(e.name.replace('.json','')).getTime());
+              this.datesSimulation.sort()
+            this.date = new Date(this.datesSimulation[this.datesSimulation.length-1])
+            
+          })
           
         
       }
