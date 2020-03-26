@@ -93,7 +93,7 @@ export default {
                 
             }
        if(this.data && this.country in this.data){
-                const dataC = this.data[this.country].map(function(elt){
+                const dataC = this.data[this.country].filter((e) => e.confirmed !== null).map(function(elt){
                     return [Date.parse(elt.date), elt.confirmed]
                 });
                 
@@ -107,7 +107,7 @@ export default {
                     },
                 })
                 
-                const dataD = this.data[this.country].map(function(elt){
+                const dataD = this.data[this.country].filter((e) => e.deaths !== null).map(function(elt){
                     return [Date.parse(elt.date), elt.deaths]
                 });
                 
@@ -119,7 +119,7 @@ export default {
                         radius: 4
                     },
                 })
-                const dataR = this.data[this.country].map(function(elt){
+                const dataR = this.data[this.country].filter((e) => e.recovered !== null).map(function(elt){
                     return [Date.parse(elt.date), elt.recovered]
                 });
                 sAll.push({
@@ -131,7 +131,7 @@ export default {
                         radius: 4
                     },
                 })
-                   const dataA= this.data[this.country].map(function(elt){
+                   const dataA= this.data[this.country].filter((e) => e.confirmed !== null && e.recovered !== null && e.deaths !== null).map(function(elt){
                     return [Date.parse(elt.date), elt.confirmed-elt.recovered-elt.deaths]
                 });
                 sAll.push({
