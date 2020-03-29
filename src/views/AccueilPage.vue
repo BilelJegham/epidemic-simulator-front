@@ -8,20 +8,25 @@
            
           <label for="datePicker">Date of simulation</label>
             <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
-              <md-autocomplete v-model="country" id="country" :md-options="this.countries" v-bind:class="{ 'md-invalid': (this.country && this.country.length > 0 && this.countries.indexOf(this.country) === -1) }">
-                <label>Country</label> 
-                <span class="md-error">There is no simulation of '{{this.country}}' on {{this.date.getFullYear()}}-{{this.date.getMonth()+1}}-{{this.date.getDate()}}</span>
+            
+          <md-field>               
+         <label>Country</label> 
+            <md-select v-model="country" id="country" v-bind:class="{ 'md-invalid': (this.country && this.country.length > 0 && this.countries.indexOf(this.country) === -1) }" multiple>
+
+              <md-option v-for="c in this.countries" v-bind:key="c" :value="c">{{c}}</md-option>
+            </md-select>
+            <span class="md-error">There is no simulation of '{{this.country}}' on {{this.date.getFullYear()}}-{{this.date.getMonth()+1}}-{{this.date.getDate()}}</span>
            
-              </md-autocomplete>
+          </md-field>
         
 
         
       </md-card-content>
 
   </md-card>
-    <md-card v-if="this.countries.indexOf(this.country) !== -1">
+    <md-card v-if="this.country.length > 0">
       <md-card-header>
-        <div class="md-title">{{this.country}}</div>
+        <div class="md-title">{{this.country.join(', ')}}</div>
       </md-card-header>
       <md-card-content>
         <ChartH :series="this.seriesAll"/>
@@ -48,7 +53,7 @@ export default {
   },
   data(){
       return{
-        country : '',
+        country : [],
         datesSimulation : [],
         data: undefined,
         dataTurfu: undefined,
@@ -71,34 +76,47 @@ export default {
       return Object.keys(this.dataTurfu).sort();
     },
     seriesAll(){
+      let series = []
+      this.country.map((c) => {
+        let s =  this.getSeriesCountry(c)
+        series= [...series,...s]
+      });
+      return series;
+    },
+    
+  },
+  
+  methods:{
+    getSeriesCountry(country){
       let sAll = [];
-      if(this.dataTurfu && this.country in this.dataTurfu){
+      if(this.dataTurfu && country in this.dataTurfu){
                 
-                const dataC = this.dataTurfu[this.country].map(function(elt){
+                const dataC = this.dataTurfu[country].map(function(elt){
                     return [Date.parse(elt.date.replace(',', '')), elt.cases_sim]
                 });
                 
                 sAll.push({
-                    name: "infected - simulation",//+this.country,
+                    name: "infected - simulation "+country,
                     data: dataC
                 })               
                 
-                const dataR = this.dataTurfu[this.country].map(function(elt){
+                const dataR = this.dataTurfu[country].map(function(elt){
                     return [Date.parse(elt.date.replace(',', '')), elt.deaths_sim]
                 });
                 sAll.push({
-                    name: "deaths - simulation",//+this.country,
+                    name: "deaths - simulation "+country,
                     data: dataR
                 })
                 
+                
             }
-       if(this.data && this.country in this.data){
-                const dataC = this.data[this.country].map(function(elt){
+       if(this.data && country in this.data){
+                const dataC = this.data[country].map(function(elt){
                     return [Date.parse(elt.date), elt.confirmed]
                 });
                 
                 sAll.push({
-                    name: "confirmed",//+this.country,
+                    name: "confirmed "+country,
                     data: dataC,
                     visible: false,
                     marker: {
@@ -107,23 +125,23 @@ export default {
                     },
                 })
                 
-                const dataD = this.data[this.country].map(function(elt){
+                const dataD = this.data[country].map(function(elt){
                     return [Date.parse(elt.date), elt.deaths]
                 });
                 
                 sAll.push({
-                    name: "deaths",//+this.country,
+                    name: "deaths "+country,
                     data: dataD,
                     marker: {
                         enabled: true,
                         radius: 4
                     },
                 })
-                const dataR = this.data[this.country].map(function(elt){
+                const dataR = this.data[country].map(function(elt){
                     return [Date.parse(elt.date), elt.recovered]
                 });
                 sAll.push({
-                    name: "recovered",//+this.country,
+                    name: "recovered "+country,
                     data: dataR,
                     visible: false,
                     marker: {
@@ -131,11 +149,11 @@ export default {
                         radius: 4
                     },
                 })
-                   const dataA= this.data[this.country].map(function(elt){
+                   const dataA= this.data[country].map(function(elt){
                     return [Date.parse(elt.date), elt.confirmed-elt.recovered-elt.deaths]
                 });
                 sAll.push({
-                    name: "infected",//+this.country,
+                    name: "infected "+country,
                     data: dataA,
                     marker: {
                         enabled: true,
@@ -144,10 +162,7 @@ export default {
                 })
             }
       return sAll
-    }
-  },
-  
-  methods:{
+    },
       getSeriesTurfu(){
         this.axios.get(`https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/${this.date.getFullYear()}-${this.date.getMonth()+1}-${this.date.getDate()}.json`).then(res => {
             this.dataTurfu = res.data;
