@@ -6,18 +6,15 @@
       </md-card-header>
       <md-card-content>
            
-          <label for="datePicker">Date of simulation</label>
-            <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
+        <label for="datePicker">Date of simulation</label>
+        <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
             
-          <md-field>               
-         <label>Country</label> 
-            <md-select v-model="country" id="country" v-bind:class="{ 'md-invalid': (this.country && this.country.length > 0 && this.countries.indexOf(this.country) === -1) }" multiple>
-
-              <md-option v-for="c in this.countries" v-bind:key="c" :value="c">{{c}}</md-option>
-            </md-select>
-            <span class="md-error">There is no simulation of '{{this.country}}' on {{this.date.getFullYear()}}-{{this.date.getMonth()+1}}-{{this.date.getDate()}}</span>
-           
-          </md-field>
+        <md-field>               
+          <label>Country</label> 
+          <md-select v-model="country" id="country" multiple>
+            <md-option v-for="c in this.countries" v-bind:key="c" :value="c">{{c}}</md-option>
+          </md-select>
+        </md-field>
         
 
         
@@ -167,6 +164,7 @@ export default {
         this.axios.get(`https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/${this.date.getFullYear()}-${this.date.getMonth()+1}-${this.date.getDate()}.json`).then(res => {
             this.dataTurfu = res.data;
             
+          this.country = this.country.filter((c) => this.countries.indexOf(c) !== -1);
          }).catch((e) => {
            console.error(e);
             this.dataTurfu = {}
