@@ -16,6 +16,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import Highcharts from "highcharts";
 import darkUnica from "highcharts/themes/dark-unica";
 import './registerServiceWorker'
+import vuetify from './plugins/vuetify';
 
 stockInit(Highcharts)
 darkUnica(Highcharts);
@@ -57,5 +58,6 @@ const router = new Router({
 
 new Vue({
   render: h => h(App),
-  router,
+  vuetify,
+  router
 }).$mount('#app')

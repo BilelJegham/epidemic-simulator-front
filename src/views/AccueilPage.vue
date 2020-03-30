@@ -1,5 +1,5 @@
 <template>
-<div>
+  <v-app dark>
     <md-card>
       <md-card-header>
         <div class="md-title">Select the country</div>
@@ -8,13 +8,14 @@
            
         <label for="datePicker">Date of simulation</label>
         <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
-            
-        <md-field>               
-          <label>Country</label> 
-          <md-select v-model="country" id="country" multiple>
-            <md-option v-for="c in this.countries" v-bind:key="c" :value="c">{{c}}</md-option>
-          </md-select>
-        </md-field>
+        
+        <v-autocomplete
+          v-model="country" 
+          :items="countries"
+          label="Country"
+          multiple
+          dark
+        ></v-autocomplete>
         
 
         
@@ -31,7 +32,7 @@
       </md-card-content>
 
   </md-card>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -50,6 +51,7 @@ export default {
   },
   data(){
       return{
+        items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
         country : [],
         datesSimulation : [],
         data: undefined,
@@ -207,5 +209,8 @@ export default {
   .text-center{
     margin: 0;
     text-align: center;
+  }
+  #app .v-application{
+    background: none;
   }
 </style>
