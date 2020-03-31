@@ -108,7 +108,7 @@ export default {
                 
             }
 
-       if(this.data && this.country in this.data){
+       if(this.data && country in this.data){
                 const dataC = this.data[country].filter((e) => e.confirmed !== null).map(function(elt){
                     return [Date.parse(elt.date), elt.confirmed]
                 });
@@ -152,8 +152,7 @@ export default {
                     },
                 })
 
-                   const dataA= this.data[country].map(function(elt){
-                   const dataA= this.data[country].filter((e) => e.confirmed !== null && e.recovered !== null && e.deaths !== null).map(function(elt){
+                const dataA= this.data[country].filter((e) => e.confirmed !== null && e.recovered !== null && e.deaths !== null).map(function(elt){
 
                     return [Date.parse(elt.date), elt.confirmed-elt.recovered-elt.deaths]
                 });
@@ -165,7 +164,7 @@ export default {
                         radius: 4
                     },
                 })
-            }
+           }
       return sAll
     },
       getSeriesTurfu(){
