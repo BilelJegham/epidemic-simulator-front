@@ -8,30 +8,28 @@
            
         <label for="datePicker">Date of simulation</label>
         <md-datepicker name="datePicker" id="datePicker" v-model="date" :md-disabled-dates="disabledDates"/>
-        
+      
         <v-autocomplete
-          v-model="country" 
+          v-model="countriesSelect" 
           :items="countries"
           label="Country"
           multiple
           dark
         ></v-autocomplete>
-        
-
-        
+      
       </md-card-content>
 
-  </md-card>
-    <md-card v-if="this.country.length > 0">
+    </md-card>
+    <md-card v-if="this.countriesSelect.length > 0">
       <md-card-header>
-        <div class="md-title">{{this.country.join(', ')}}</div>
+        <div class="md-title">{{this.countriesSelect.join(', ')}}</div>
       </md-card-header>
       <md-card-content>
-        <ChartH :series="this.seriesAll"/>
-        <p class="text-center"><small>Timezone : UTC+1</small></p>
+        <ChartH :series="this.seriesAll" :number="this.number"/>
+         <p class="text-center"><md-switch v-model="number" class="md-primary">Display count date</md-switch><br/>
+         <small>Timezone : UTC+1</small></p>
       </md-card-content>
-
-  </md-card>
+    </md-card>
   </v-app>
 </template>
 
@@ -47,15 +45,15 @@ export default {
     this.getDateSimulation()
     this.getSeries()
     if(this.$route.params && this.$route.params.country)
-      this.country = this.$route.params.country.split(',')
+      this.countriesSelect = this.$route.params.country.split(',')
   },
   data(){
       return{
-        items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-        country : [],
+        countriesSelect : [],
         datesSimulation : [],
         data: undefined,
         dataTurfu: undefined,
+        number: false,
         date: new Date(),
         disabledDates: date => {
             return (this.datesSimulation.indexOf(date.getTime()) === -1)
@@ -76,7 +74,7 @@ export default {
     },
     seriesAll(){
       let series = []
-      this.country.map((c) => {
+      this.countriesSelect.map((c) => {
         let s =  this.getSeriesCountry(c)
         series= [...series,...s]
       });
@@ -115,6 +113,7 @@ export default {
                 });
                 
                 sAll.push({
+                    index: true,
                     name: "confirmed "+country,
                     data: dataC,
                     visible: false,
@@ -166,7 +165,7 @@ export default {
         this.axios.get(`https://raw.githubusercontent.com/RemiTheWarrior/epidemic-simulator/master/data/${this.date.getFullYear()}-${this.date.getMonth()+1}-${this.date.getDate()}.json`).then(res => {
             this.dataTurfu = res.data;
             
-          this.country = this.country.filter((c) => this.countries.indexOf(c) !== -1);
+          this.countriesSelect = this.countriesSelect.filter((c) => this.countries.indexOf(c) !== -1);
          }).catch((e) => {
            console.error(e);
             this.dataTurfu = {}
