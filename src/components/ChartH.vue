@@ -1,6 +1,6 @@
 <template>
   <div v-if="this.series && this.series.length !== 0">
-    <highcharts constructor-type="stockChart" :options="chartOptions"></highcharts>
+    <highcharts v-if="!this.disableNumber" constructor-type="stockChart" :options="chartOptions"></highcharts>
   </div>
 </template>
 
@@ -11,6 +11,19 @@ export default {
   props: ["series", "number"],
   components: {
     highcharts: Chart 
+  },
+  data(){
+    return{
+      disableNumber: false
+    }
+  },
+  watch: {
+    number: function () {
+      this.disableNumber = true
+      setTimeout(() => {
+        this.disableNumber = false
+      },1);
+    }
   },
   computed: {
     dateStart(){

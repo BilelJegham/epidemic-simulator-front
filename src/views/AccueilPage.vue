@@ -63,7 +63,7 @@ export default {
   watch:{
     date: function () {
         this.getSeriesTurfu();
-    }
+    },
   },
   computed:{
     countries(){
@@ -75,7 +75,7 @@ export default {
     seriesAll(){
       let series = []
       this.countriesSelect.map((c) => {
-        let s =  this.getSeriesCountry(c)
+        let s =  this.getSeriesCountry(c, series.length)
         series= [...series,...s]
       });
       return series;
@@ -84,7 +84,7 @@ export default {
   },
   
   methods:{
-    getSeriesCountry(country){
+    getSeriesCountry(country, index){
       let sAll = [];
       if(this.dataTurfu && country in this.dataTurfu){
                 
@@ -94,7 +94,8 @@ export default {
                 
                 sAll.push({
                     name: "infected - simulation "+country,
-                    data: dataC
+                    data: dataC,
+                    colorIndex: index
                 })               
                 
                 const dataR = this.dataTurfu[country].map(function(elt){
@@ -102,7 +103,8 @@ export default {
                 });
                 sAll.push({
                     name: "deaths - simulation "+country,
-                    data: dataR
+                    data: dataR,
+                    colorIndex: index+1
                 })
                 
                 
@@ -120,8 +122,8 @@ export default {
                     visible: false,
                     marker: {
                         enabled: true,
-                        radius: 4
                     },
+                    colorIndex: index+2
                 })
                 
 
@@ -134,8 +136,8 @@ export default {
                     data: dataD,
                     marker: {
                         enabled: true,
-                        radius: 4
                     },
+                    colorIndex: index+3
                 })
 
               const dataR = this.data[country].filter((e) => e.recovered !== null).map(function(elt){
@@ -148,8 +150,8 @@ export default {
                     visible: false,
                     marker: {
                         enabled: true,
-                        radius: 4
                     },
+                    colorIndex: index+4
                 })
 
                 const dataA= this.data[country].filter((e) => e.confirmed !== null && e.recovered !== null && e.deaths !== null).map(function(elt){
@@ -161,8 +163,8 @@ export default {
                     data: dataA,
                     marker: {
                         enabled: true,
-                        radius: 4
                     },
+                    colorIndex: index+5
                 })
            }
       return sAll
