@@ -45,7 +45,7 @@ export default {
     this.getDateSimulation()
     this.getSeries()
     if(this.$route.params && this.$route.params.country)
-      this.countriesSelect = this.$route.params.country.split(',')
+      this.countriesSelect = this.$route.params.country.split('|')
   },
   data(){
       return{
