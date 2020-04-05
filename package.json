@@ -36,7 +36,11 @@
     "pwa": {
       "name": "Epidemic Simulator",
       "themeColor": "#424242",
-      "msTileColor": "#000000"
+      "msTileColor": "#000000",    
+      "workboxPluginMode": "InjectManifest",
+      "workboxOptions": {
+        "swSrc": "service-worker.js"
+      }
     }
   },
   "eslintConfig": {
