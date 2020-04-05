@@ -22,6 +22,8 @@ if (process.env.NODE_ENV === 'production') {
     updated () {
       console.log('New content is available; please refresh.')
       setTimeout(() => {
+        
+        console.log('reload')
         window.location.reload(true)
       }, 1000)
     },
