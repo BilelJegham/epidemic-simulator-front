@@ -25,8 +25,9 @@
         <div class="md-title">{{this.countriesSelect.join(', ')}}</div>
       </md-card-header>
       <md-card-content>
-        <ChartH :series="this.seriesAll" :number="this.number"/>
-         <p class="text-center"><md-switch v-model="number" class="md-primary">Display count date</md-switch><br/>
+        <ChartH v-if="this.number" :series="this.seriesAllNumber" :number="true"/>
+        <ChartH  v-else :series="this.seriesAll" />
+         <p class="text-center"><md-switch v-model="number" class="md-primary">Compare country</md-switch><br/>
          <small>Timezone : UTC+1</small></p>
       </md-card-content>
     </md-card>
@@ -77,6 +78,31 @@ export default {
       this.countriesSelect.map((c) => {
         let s =  this.getSeriesCountry(c, series.length)
         series= [...series,...s]
+      });
+      return series;
+    },
+    seriesAllNumber(){
+      let series = []
+      this.countriesSelect.map((c) => {
+        
+        const s =  this.getSeriesCountry(c, series.length)
+        console.log(s)
+        const index = s.find((e) => e.index).data.findIndex((value)=> {
+          console.log(value)
+          return (value[1] > 45 )
+        })
+        const sCountry =  s.map((serie) => {
+          let d = serie.data;
+          if(index != 0)
+            d= d.slice(index)
+
+          return{
+            ...serie,
+            pointStart: 1,
+            data: d.map((d)=> d[1])
+          }
+        });
+        series= [...series,...sCountry]
       });
       return series;
     },

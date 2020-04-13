@@ -1,6 +1,6 @@
 <template>
   <div v-if="this.series && this.series.length !== 0">
-    <highcharts v-if="!this.disableNumber" constructor-type="stockChart" :options="chartOptions"></highcharts>
+    <highcharts  v-if="!this.disableNumber" constructor-type="stockChart" :options="chartOptions"></highcharts>
   </div>
 </template>
 
@@ -26,14 +26,7 @@ export default {
     }
   },
   computed: {
-    dateStart(){
-      const data = this.series.find((e) => e.index).data.find((a, value)=> {
-        return (value > 45 )
-      })
-      return data[0]
-    },
     chartOptions(){
-      const dateStart = this.dateStart
       return {
         legend:{
           enabled: true,
@@ -42,15 +35,7 @@ export default {
             useUTC: false,
         },
         xAxis: {
-          labels: {
-            formatter: (!this.number) ? null : function() {
-              const oneDay = 24 * 60 * 60 * 1000; 
-              const diffDays = Math.round(((this.value - dateStart ) / oneDay));
-              return diffDays;
-            }
-          },
-          type: 'datetime',
-          
+          type: (this.number) ? 'linear': 'datetime',
         },
         title: null,
         chart:{
