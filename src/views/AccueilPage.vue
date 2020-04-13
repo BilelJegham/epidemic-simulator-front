@@ -86,9 +86,7 @@ export default {
       this.countriesSelect.map((c) => {
         
         const s =  this.getSeriesCountry(c, series.length)
-        console.log(s)
         const index = s.find((e) => e.index).data.findIndex((value)=> {
-          console.log(value)
           return (value[1] > 45 )
         })
         const sCountry =  s.map((serie) => {
@@ -104,6 +102,8 @@ export default {
         });
         series= [...series,...sCountry]
       });
+      
+      series.sort((a, b) => a.name.localeCompare(b.name));
       return series;
     },
     
