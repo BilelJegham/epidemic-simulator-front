@@ -91,11 +91,16 @@ export default {
         })
         const sCountry =  s.map((serie) => {
           let d = serie.data;
+
+          if(serie.simulation){
+            return{
+              ...serie,
+              data: d.filter((v) => new Date(v[0]).getHours()==12).map((d)=> d[1])
+            }
+          }
+
           if(index != 0)
             d= d.slice(index)
-
-          if(serie.simulation)
-            d= d.filter((a, index) => index%2==0)
 
           return{
             ...serie,
