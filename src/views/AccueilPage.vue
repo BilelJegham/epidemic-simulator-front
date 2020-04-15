@@ -91,7 +91,9 @@ export default {
         })
         const sCountry =  s.map((serie) => {
           let d = serie.data;
-          if(index != 0)
+          if(index != 0 && simulation)
+            d= d.slice(index*2)
+          else if(index != 0)
             d= d.slice(index)
 
           return{
@@ -119,6 +121,7 @@ export default {
                 });
                 
                 sAll.push({
+                    simulation: true,
                     name: "infected - simulation "+country,
                     data: dataC,
                     colorIndex: index
@@ -128,6 +131,7 @@ export default {
                     return [Date.parse(elt.date.replace(',', '')), elt.deaths_sim]
                 });
                 sAll.push({
+                    simulation: true,
                     name: "deaths - simulation "+country,
                     data: dataR,
                     colorIndex: index+1
