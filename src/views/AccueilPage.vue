@@ -91,10 +91,11 @@ export default {
         })
         const sCountry =  s.map((serie) => {
           let d = serie.data;
-          if(index != 0 && simulation)
-            d= d.slice(index*2)
-          else if(index != 0)
+          if(index != 0)
             d= d.slice(index)
+
+          if(simulation)
+            d= d.filter((a, index)=> index%2==0))
 
           return{
             ...serie,
