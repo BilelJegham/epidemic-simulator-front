@@ -27,7 +27,7 @@
       <md-card-content>
         <ChartH v-if="this.number" :series="this.seriesAllNumber" :number="true"/>
         <ChartH  v-else :series="this.seriesAll" />
-         <p class="text-center"><md-switch v-model="number" class="md-primary">Compare country</md-switch><br/>
+         <p class="text-center"><md-switch v-model="number" class="md-primary">Compare countries</md-switch><br/>
          <small>Timezone : UTC+1</small></p>
       </md-card-content>
     </md-card>
@@ -94,12 +94,11 @@ export default {
           if(index != 0)
             d= d.slice(index)
 
-          if(simulation)
-            d= d.filter((a, index)=> index%2==0))
+          if(serie.simulation)
+            d= d.filter((a, index) => index%2==0)
 
           return{
             ...serie,
-            pointStart: 1,
             data: d.map((d)=> d[1])
           }
         });
